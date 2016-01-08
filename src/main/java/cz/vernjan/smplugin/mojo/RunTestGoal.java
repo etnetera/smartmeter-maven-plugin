@@ -21,26 +21,43 @@ import cz.vernjan.smplugin.utils.StreamRedirector;
 @Mojo(name = "runTest")
 public class RunTestGoal extends AbstractMojo {
 
+	private static final String PARAM_CREATE_REPORT_AFTER_TEST = "-Jetn_create_report_after_test_default=true";
+	private static final String PARAM_CLOSE_CONTROLLER_AFTER_TEST = "-Jetn_shutdown_after_test=true";
+	private static final String PARAM_CLOSE_MONITOR_AFTER_TEST = "-Jetn_close_monitor_after_test=true";
+
+	// JVe pouze docasne - pro profi verzi 1.1.0 (jakmile bude 1.2.0 venku, tak zde zrusime)
+	private static final String PARAM_DIST_CREATE_REPORT_AFTER_TEST = "-Jetnc_create_report_after_test_default=true";
+	private static final String PARAM_DIST_CLOSE_CONTROLLER_AFTER_TEST = "-Jetnc_shutdown_after_test=true";
+
+	
 	@Parameter(property="runTest.smartMeterHome", required=true)
 	private File smartMeterHome;
 
 	@Parameter(property="runTest.monitorPath")
 	private String monitorPath;
-
 	@Parameter(property="runTest.testPath")
 	private String testPath;
 
+	@Parameter(property="runTest.distributed", defaultValue="false")
+	private boolean distributed;
 	@Parameter(property="runTest.gui", defaultValue="false")
 	private boolean gui;
+	
+	@Parameter(property="runTest.extraParams")
+	private String extraParams;
 
 
 	/**
 	 * Runs SmartMeter test based on configuration read from pom.xml.
 	 */
+	@Override
 	public void execute() throws MojoFailureException, MojoExecutionException {
-		if (!smartMeterHome.exists()) {
+		if (!smartMeterHome.exists())
 			throw new MojoFailureException("SmartMeter home not found: " + smartMeterHome);
-		}
+		if (distributed && monitorPath == null)
+			throw new MojoFailureException("monitor path required");
+		if (!distributed && testPath == null)
+			throw new MojoFailureException("test path required");
 
 		runTest();
 		readResult();
@@ -54,15 +71,9 @@ public class RunTestGoal extends AbstractMojo {
 	// PRIVATE METHODS >>
 
 	private void runTest() throws MojoExecutionException {
-		ProcessBuilder pb = buildRunTestCommand();
-		pb.redirectErrorStream(true);
-		
-		getLog().info("running test " + testPath);
-		getLog().debug("running " + pb.command());
-
 		Process p;
 		try {
-			p = pb.directory(smartMeterHome).start();
+			p = buildRunTestCommand().start();
 		} catch (IOException e) {
 			throw new MojoExecutionException("error", e);
 		}
@@ -80,20 +91,54 @@ public class RunTestGoal extends AbstractMojo {
 	private ProcessBuilder buildRunTestCommand() {
 		ProcessBuilder pb = new ProcessBuilder(SmartMeterFiles.JAVA_BIN, "-jar", SmartMeterFiles.LAUNCHER_JAR);
 
-		if (monitorPath != null) {
-			pb.command().add((gui ? "runDistTest" : "runDistTestNonGui"));
+		if (distributed) {
+			pb.command().add(gui ? "runDistTest" : "runDistTestNonGui");
 			pb.command().add(monitorPath);
 			if (testPath != null) {
 				pb.command().add(testPath);
 			}
+			getLog().info("running distributed test " + testPath + " on monitor " + monitorPath);
 		} else {
-			pb.command().add((gui ? "runTest" : "runTestNonGui"));
+			pb.command().add(gui ? "runTest" : "runTestNonGui");
 			pb.command().add(testPath);
+			getLog().info("running test " + testPath);
 		}
 
-		if (gui) {
-			pb.command().add("-Jetn_shutdown_after_test=true");
+		
+		// JVe takto pro nove verze
+//		if (gui) { // make sure SmartMeter shuts down after test (in Non-Gui will shut down automatically)
+//			if (distributed) {
+//				pb.command().add(PARAM_CLOSE_MONITOR_AFTER_TEST);
+//			}
+//			pb.command().add(PARAM_CLOSE_CONTROLLER_AFTER_TEST); 
+//		}
+//		
+//		pb.command().add(PARAM_CREATE_REPORT_AFTER_TEST);
+		
+		
+		// JVe pouze docasne - pro profi verzi 1.1.0 (jakmile bude 1.2.0 venku, tak zde zrusime)
+		if (gui) { // make sure SmartMeter shuts down after test (in Non-Gui will shut down automatically)
+			if (distributed) {
+				pb.command().add(PARAM_CLOSE_MONITOR_AFTER_TEST);
+				pb.command().add(PARAM_DIST_CLOSE_CONTROLLER_AFTER_TEST);
+			}
+			pb.command().add(PARAM_CLOSE_CONTROLLER_AFTER_TEST); 
 		}
+		
+		if (distributed) {
+			pb.command().add(PARAM_DIST_CREATE_REPORT_AFTER_TEST);
+		}
+		pb.command().add(PARAM_CREATE_REPORT_AFTER_TEST);
+		
+		if (extraParams != null) {
+			pb.command().add(extraParams);
+		}
+		
+		pb.redirectErrorStream(true);
+		
+		pb.directory(smartMeterHome);
+		
+		getLog().debug("running " + pb.command());
 
 		return pb;
 	}

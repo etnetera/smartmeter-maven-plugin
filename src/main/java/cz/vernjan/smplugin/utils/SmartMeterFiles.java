@@ -19,7 +19,7 @@ public final class SmartMeterFiles {
 
 	private static final String FS = File.separator;
 
-	/** programs/jre/bin/java */
+	/** programs/[jre]/bin/java */
 	public static final String JAVA_BIN = "programs" + FS + getJavaHome() + FS + "bin" + FS + "java";
 	/** programs/SmartMeter/lib/Launcher.jar */
 	public static final String LAUNCHER_JAR = "programs" + FS + "SmartMeter" + FS + "lib" + FS + "Launcher.jar";
