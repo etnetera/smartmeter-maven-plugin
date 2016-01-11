@@ -5,16 +5,38 @@
 
 	<groupId>cz.etnetera</groupId>
 	<artifactId>smartmeter-maven-plugin</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>maven-plugin</packaging>
 	<name>SmartMeter Maven plugin</name>
-	<description>Maven plugin for running SmartMeter tests.</description>
+	<description>Maven plugin for running SmartMeter.io tests.</description>
 	<url>https://smartmeter.io</url>
+
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Jan Verner</name>
+			<email>jan.verner@etnetera.cz</email>
+			<organization>Etnetera</organization>
+			<organizationUrl>http://etnetera.cz</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git@github.com:etnetera/smartmeter-maven-plugin.git</connection>
+		<developerConnection>scm:git:git@github.com:etnetera/smartmeter-maven-plugin.git</developerConnection>
+		<url>https://github.com/etnetera/smartmeter-maven-plugin</url>
+	</scm>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.7</maven.compiler.source>
-  		<maven.compiler.target>1.7</maven.compiler.target>
+		<maven.compiler.target>1.7</maven.compiler.target>
 	</properties>
 
 	<dependencies>
@@ -39,6 +61,7 @@
 
 	<build>
 		<plugins>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-plugin-plugin</artifactId>
@@ -50,13 +73,51 @@
 					</execution>
 					<!-- if you want to generate help goal -->
 					<execution>
-						<id>help-goal</id> 
+						<id>help-goal</id>
 						<goals>
 							<goal>helpmojo</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 
