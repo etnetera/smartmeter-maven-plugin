@@ -5,7 +5,7 @@
  * Intended for internal use only. 
  * http://www.etnetera.cz 
  */
-package cz.vernjan.smplugin.utils;
+package cz.etnetera.smplugin.utils;
 
 import java.io.File;
 

@@ -1,4 +1,4 @@
-package cz.vernjan.smplugin.mojo;
+package cz.etnetera.smplugin.mojo;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,8 +9,8 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-import cz.vernjan.smplugin.utils.SmartMeterFiles;
-import cz.vernjan.smplugin.utils.StreamRedirector;
+import cz.etnetera.smplugin.utils.SmartMeterFiles;
+import cz.etnetera.smplugin.utils.StreamRedirector;
 
 /**
  * Maven goal which executes SmartMeter test.

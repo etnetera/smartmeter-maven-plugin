@@ -5,9 +5,11 @@
  * Intended for internal use only. 
  * http://www.etnetera.cz 
  */
-package cz.vernjan.smplugin.mojo;
+package cz.etnetera.smplugin.mojo;
 
 import java.io.File;
+
+import cz.etnetera.smplugin.mojo.RunTestGoal;
 
 /**
  *
