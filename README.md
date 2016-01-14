@@ -43,7 +43,7 @@ Use SmartMeter Maven plugin in 3 easy steps.
 
 | Parameter | Description | Mandatory | Profi version only | Example |
 | --------- | ----------- | --------- | ------------------ | ------- |
-| SMARTMETER_HOME | Absolute path to SmartMeter home folder | yes | no | /home/vernjan/smartmeter |
+| SMARTMETER_HOME | Absolute path to SmartMeter home folder | yes | no | /home/etnetera/smartmeter |
 | MONITOR_PATH | Monitor script name from *tests/monitors* folder or absolute path to monitor script | only for DISTRIBUTED tests | yes | monitor.jmx |
 | TEST_PATH | Test script name from *tests* folder or absolute path to test script | yes | no | test.jmx |
 | DISTRIBUTED | Run test in distributed mode | no | yes | *true* or *false* (default) |
@@ -83,5 +83,5 @@ Sometimes it is handy to override your default configuration defined in pom.xml 
 
 Then, you may easily override your pom.xml configuration like this:
 ```
-mvn cz.vernjan:smartmeter-maven-plugin:runTest "-Dsmartmeter.testPath=my-test.jmx -Dsmartmeter.gui=false"
+mvn cz.etnetera:smartmeter-maven-plugin:runTest "-Dsmartmeter.testPath=my-test.jmx -Dsmartmeter.gui=false"
 ```
