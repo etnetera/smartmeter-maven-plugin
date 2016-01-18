@@ -2,7 +2,9 @@
 
 Maven plugin for running performance tests using [SmartMeter.io] (https://www.smartmeter.io).
 
-**Note: SmartMeter 1.1.0 and higher is required!**
+**Note 1: SmartMeter Maven plugin 1.0.0 does not work on Windows, use version 1.0.1 or higher!**
+
+**Note 2: SmartMeter 1.1.0 and higher is required!**
 
 To learn more about SmartMeter.io read its [official documentation] (https://www.smartmeter.io/documentation). You can find useful knowing how to [run SmartMeter.io from command line] (https://www.smartmeter.io/documentation#toc-running-from-command-line).
 
