@@ -89,7 +89,9 @@ public class RunTestGoal extends AbstractMojo {
 	}
 
 	private ProcessBuilder buildRunTestCommand() {
-		ProcessBuilder pb = new ProcessBuilder(SmartMeterFiles.JAVA_BIN, "-jar", SmartMeterFiles.LAUNCHER_JAR);
+		ProcessBuilder pb = new ProcessBuilder(
+				smartMeterHome + File.separator + SmartMeterFiles.JAVA_BIN,
+				"-jar", smartMeterHome + File.separator + SmartMeterFiles.LAUNCHER_JAR);
 
 		if (distributed) {
 			pb.command().add(gui ? "runDistTest" : "runDistTestNonGui");

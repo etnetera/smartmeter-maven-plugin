@@ -5,7 +5,7 @@
 
 	<groupId>cz.etnetera</groupId>
 	<artifactId>smartmeter-maven-plugin</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>maven-plugin</packaging>
 	<name>SmartMeter Maven plugin</name>
 	<description>Maven plugin for running SmartMeter.io tests.</description>
